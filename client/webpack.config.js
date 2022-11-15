@@ -20,7 +20,7 @@ module.exports = () => {
     plugins: [
       new HtmlWebpackPlugin({
         template: "./index.html",
-        title: "Webpack Plugin",
+        title: "TextEditor",
       }),
 
       new InjectManifest({
@@ -29,16 +29,16 @@ module.exports = () => {
       }),
 
       new WebpackPwaManifest({
-        name: "TODOs",
-        short_name: "TODOs",
-        description: "Keep track of important tasks!",
+        name: "TextEditor",
+        short_name: "TextEditor",
+        description: "Offline text editor",
         background_color: "#7eb4e2",
         theme_color: "#7eb4e2",
         start_url: "./",
         publicPath: "./",
         icons: [
           {
-            src: path.resolve("assets/images/logo.png"),
+            src: path.resolve("src/images/logo.png"),
             sizes: [96, 128, 192, 256, 384, 512],
             destination: path.join("assets", "icons"),
           },
@@ -50,15 +50,19 @@ module.exports = () => {
       rules: [
         {
           test: /\.css$/i,
-          use: [MiniCssExtractPlugin.loader, "css-loader"],
+          use: ["style-loader", "css-loader"],
         },
         {
           test: /\.m?js$/,
-          exclude: /(node_modules|bower_components)/,
+          exclude: /node_modules/,
           use: {
             loader: "babel-loader",
             options: {
               presets: ["@babel/preset-env"],
+              plugins: [
+                "@babel/plugin-proposal-object-rest-spread",
+                "@babel/transform-runtime",
+              ],
             },
           },
         },
